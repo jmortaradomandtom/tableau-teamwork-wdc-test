@@ -18,26 +18,25 @@
     // get the schema for the data we need
     myConnector.getSchema = function (schemaCallback) {
 
-	    tableau.log("teamworkWDC.js: myConnector.getSchema");
+	    tableau.log(">>teamworkWDC.js: myConnector.getSchema");
 
     	// cols is an array of JS objects. each obj defines a single column in our table. such as mag, title, loc
     	// for each col you can specify more options like 'alias' for a display name and columnRole to etermine type
-    	// id can only contain alph chars
+    	// id can only contain alpha chars
 	    var cols = [{
 	        id: "id",
 	        dataType: tableau.dataTypeEnum.string
-	    }/*, {
-	        id: "mag",
-	        alias: "magnitude",
-	        dataType: tableau.dataTypeEnum.float
 	    }, {
-	        id: "title",
-	        alias: "title",
+	        id: "name",
+	        alias: "projectName",
 	        dataType: tableau.dataTypeEnum.string
 	    }, {
-	        id: "location",
-	        dataType: tableau.dataTypeEnum.geometry
-	    }*/];
+	        id: "totalHoursEstimated",
+	        dataType: tableau.dataTypeEnum.string
+	    }, {
+	        id: "completedHoursEstimated",
+	        dataType: tableau.dataTypeEnum.string
+	    }];
 
 	    // tableSchema var defines schema for a single table and contains a JS obj
 	    var tableSchema = {
@@ -59,16 +58,6 @@
 	    $.getJSON("https://domandtom.teamwork.com/projects/283197/time/total.json", function(resp) {
 	        var proj = resp.projects,
 	            tableData = [];
-
-	        // Iterate over the JSON object. stores our data in the tableData array.
-	        /*for (var i = 0, len = feat.length; i < len; i++) {
-	            tableData.push({
-	                "id": feat[i].id,
-	                "mag": feat[i].properties.mag,
-	                "title": feat[i].properties.title,
-	                "location": feat[i].geometry
-	            });
-	        }*/
 
 	        for (var i = 0, len = proj.length; i < len; i++) {
 	            tableData.push({
