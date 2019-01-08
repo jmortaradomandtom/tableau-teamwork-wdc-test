@@ -11,7 +11,10 @@
 
 	// Init function for connector, called during every phase
 	  myConnector.init = function(initCallback) {
+	    tableau.log(">>teamworkWDC.js: myConnector.init");
+
 	      tableau.authType = tableau.authTypeEnum.basic;
+
 	      initCallback();
 	  }
 
@@ -41,7 +44,7 @@
 	    // tableSchema var defines schema for a single table and contains a JS obj
 	    var tableSchema = {
 	        id: "id",
-	        alias: "Teamwork data is the best data",
+	        alias: "Teamwork data",
 	        columns: cols
 	    };
 
@@ -53,6 +56,8 @@
 	// get the data
 	// params: table: is an obj defined by the WDC to which we can append data. doneCallback is triggered when data has arrived.
 	myConnector.getData = function(table, doneCallback) {
+
+	    tableau.log(">>teamworkWDC.js: myConnector.getData");
 
 		// jQuery function to get data from a feed and use a success handler to store the data in the resp var
 	    $.getJSON("https://domandtom.teamwork.com/projects/283197/time/total.json", function(resp) {
@@ -81,6 +86,13 @@
     $(document).ready(function () {
     	// define a button click listener for the button on teamworkWDC.html's submitButton
 	    $("#submitButton").click(function () {
+
+	    	// get the username and password from the input fields
+	    	tableau.username = $("#teamwork-username-input").val(); 
+	  		tableau.password = $("#teamwork-password-input").val();
+
+	  		//tableau.log(">>teamworkWDC.js: submitButton.onClick: attempting authorization with username: " + tableau.username);
+
 	        tableau.connectionName = "Teamwork Feed";	// this is what Tableau will display as the data source
 	        tableau.submit();	// send to Tableau for validation
 	    });
